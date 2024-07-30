@@ -83,6 +83,58 @@ function mxCell(value, geometry, style)
  */
 mxCell.prototype.id = null;
 
+//todo 新增控件属性
+/**
+ * Variable: batchId
+ *
+ * 批处理ID
+ */
+ mxCell.prototype.batchId = null;
+
+ /**
+ * Variable: sno
+ *
+ * 序列号
+ */
+  mxCell.prototype.sno = null;
+  /**
+ * Function: getBatchId
+ *
+ * Returns the batchId of the cell as a string.
+ */
+mxCell.prototype.getBatchId = function()
+{
+	return this.batchId;
+};
+		
+/**
+ * Function: setBatchId
+ *
+ * Sets the batchId of the cell to the given string.
+ */
+mxCell.prototype.setBatchId = function(batchId)
+{
+	this.batchId = batchId;
+};
+  /**
+ * Function: getSno
+ *
+ * Returns the sno of the cell as a string.
+ */
+   mxCell.prototype.getSno = function()
+   {
+	   return this.sno;
+   };
+		   
+   /**
+	* Function: setBatchId
+	*
+	* Sets the sno of the cell to the given string.
+	*/
+   mxCell.prototype.setSno = function(sno)
+   {
+	   this.sno = sno;
+   };
 /**
  * Variable: value
  *

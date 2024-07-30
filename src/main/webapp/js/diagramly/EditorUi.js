@@ -11132,8 +11132,8 @@
 					{
 						this.addPopupMenuArrangeItems(menu, cell, evt);
 					}
-			
-					this.addMenuItems(menu, ['-', 'cut', 'copy', 'copyAsImage',
+					//todo	编辑步点
+					this.addMenuItems(menu, ['-','editStep', 'cut', 'copy', 'copyAsImage',
 						'duplicate', '-'], null, evt);
 
 					if (!this.isShowCellEditItems())

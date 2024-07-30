@@ -643,12 +643,12 @@ App.main = function(callback, createUi)
 	{
 		// This function is called only once, so we can set the flag here
 		// Safari calls window.load event when the location hash is set (e.g, on descriptor change) resulting in calling main twice
-		if (App.isMainCalled) 
+		if (App.isMainCalled) 	
 		{
 			return;
 		}
 
-		// Checks if electron is defined in Electron app
+		// Checks if electron is defined in Electron app	//检查电子应用程序中是否定义了电子
 		if (mxIsElectron && typeof electron === 'undefined')
 		{
 			alert('Runtime Environment not found.');
@@ -660,7 +660,7 @@ App.main = function(callback, createUi)
 		}
 		
 		App.isMainCalled = true;
-		// Handles uncaught errors before the app is loaded
+		// Handles uncaught errors before the app is loaded		//在加载应用程序之前处理未处理的错误
 		window.onerror = function(message, url, linenumber, colno, err)
 		{
 			EditorUi.logError('Global: ' + ((message != null) ? message : ''),
@@ -685,7 +685,7 @@ App.main = function(callback, createUi)
 			}, 100);
 		};
 
-		// Blocks stand-alone mode for certain subdomains
+		// Blocks stand-alone mode for certain subdomains	某些子域的//块独立模式
 		if (window.top == window.self &&
 			('import.diagrams.net' === window.location.hostname ||
 			'ac.draw.io' === window.location.hostname ||
@@ -695,8 +695,8 @@ App.main = function(callback, createUi)
 			
 			return;
 		}
-		
-		// Removes info text in embed mode
+
+		// Removes info text in embed mode	移除嵌入模式下的信息文本
 		if (urlParams['embed'] == '1' || urlParams['lightbox'] == '1')
 		{
 			var geInfo = document.getElementById('geInfo');
@@ -707,7 +707,7 @@ App.main = function(callback, createUi)
 			}
 		}
 		
-		// Redirects to the latest AWS icons
+		// Redirects to the latest AWS icons	重定向到最新的Aws图标
 		if (document.referrer != null && urlParams['libs'] == 'aws3' &&
 			document.referrer.substring(0, 42) == 'https://aws.amazon.com/architecture/icons/')
 		{
@@ -716,32 +716,32 @@ App.main = function(callback, createUi)
 		
 		if (window.mxscript != null)
 		{
-			// Checks for script content changes to avoid CSP errors in production
+			// Checks for script content changes to avoid CSP errors in production		检查脚本内容更改以避免生产中的CSP错误
 			if (urlParams['dev'] == '1' && !mxClient.IS_CHROMEAPP && !EditorUi.isElectronApp &&
 				CryptoJS != null && App.mode != App.MODE_DROPBOX && App.mode != App.MODE_TRELLO)
 			{
 				var bootstrap = document.getElementById('geBootstrap');
 
-				// Checks bootstrap script
+				// Checks bootstrap script		检查引导脚本
 				if (bootstrap != null)
 				{
 					var content = mxUtils.getTextContent(bootstrap);
 					
-					if (CryptoJS.MD5(content).toString() != 'ff68e9badc5b6bcb8f482e0c64b103a7')
+					if (CryptoJS.MD5(content).toString() != '78c89f0a4e890af91f6f0885c150c594')
 					{
 						console.log('Change bootstrap script MD5 in the previous line:', CryptoJS.MD5(content).toString());
-						alert('[Dev] Bootstrap script change requires update of CSP');
+						// alert('[Dev] Bootstrap script change requires update of CSP');
 					}
 				}
 				
 				var main = document.getElementById('geMain');
 				
-				// Checks main script
+				// Checks main script	检查主脚本
 				if (main != null)
 				{
 					var content = mxUtils.getTextContent(main);
 					
-					if (CryptoJS.MD5(content).toString() != '69c25556b6237c57cdb7d017147af34b')
+					if (CryptoJS.MD5(content).toString() != '8e58598f9256fb6fe7660694a7c493bc')
 					{
 						console.log('Change main script MD5 in the previous line:', CryptoJS.MD5(content).toString());
 						alert('[Dev] Main script change requires update of CSP');
@@ -751,7 +751,7 @@ App.main = function(callback, createUi)
 
 			try
 			{
-				// Removes PWA cache on www.draw.io to force use of new domain via redirect
+				// Removes PWA cache on www.draw.io to force use of new domain via redirect		删除www.leg.io上的PWA缓存，通过重定向强制使用新域
 				if (Editor.enableServiceWorker && (urlParams['offline'] == '0' ||
 					/www\.draw\.io$/.test(window.location.hostname) ||
 					(urlParams['offline'] != '1' && urlParams['dev'] == '1')))
@@ -766,7 +766,7 @@ App.main = function(callback, createUi)
 				}
 				else if (Editor.enableServiceWorker)
 				{
-					// Runs as progressive web app if service workers are supported
+					// Runs as progressive web app if service workers are supported		如果支持服务工作人员，则以渐进web应用程序的形式运行。
 					navigator.serviceWorker.register('service-worker.js');
 				}
 			}
@@ -775,14 +775,14 @@ App.main = function(callback, createUi)
 				// ignore
 			}
 			
-			// Loads Pusher API
+			// Loads Pusher API		负载推动器API
 			if (('ArrayBuffer' in window) && !mxClient.IS_CHROMEAPP && !EditorUi.isElectronApp &&
 				DrawioFile.SYNC == 'auto' && (urlParams['embed'] != '1' ||
 				urlParams['embedRT'] == '1') && urlParams['local'] != '1' &&
 				(urlParams['chrome'] != '0' || urlParams['rt'] == '1') &&
 				urlParams['stealth'] != '1' && urlParams['offline'] != '1')
 			{
-				// TODO: Check if async loading is fast enough
+				// TODO: Check if async loading is fast enough		Todo：检查异步加载是否足够快
 				mxscript(App.PUSHER_URL);
 				
 				if (urlParams['fast-sync'] == '1')
@@ -791,7 +791,7 @@ App.main = function(callback, createUi)
 				}
 			}
 			
-			// Loads plugins
+			// Loads plugins	加载插件
 			if (urlParams['plugins'] != '0' && urlParams['offline'] != '1')
 			{
 				// mxSettings is not yet initialized in configure mode, redirect parameter
@@ -892,16 +892,16 @@ App.main = function(callback, createUi)
 
 		function doLoad(bundle)
 		{
-			// Prefetches asynchronous requests so that below code runs synchronous
-			// Loading the correct bundle (one file) via the fallback system in mxResources. The stylesheet
-			// is compiled into JS in the build process and is only needed for local development.
+			// Prefetches asynchronous requests so that below code runs synchronous 						预取异步请求，以便以下代码同步运行
+			// Loading the correct bundle (one file) via the fallback system in mxResources. The stylesheet 通过mxResources中的回退系统加载正确的捆绑包（一个文件）。样式表
+			// is compiled into JS in the build process and is only needed for local development. 			在构建过程中编译为JS，仅在本地开发时需要。
 			mxUtils.getAll((urlParams['dev'] != '1') ? [bundle] : [bundle,
 				STYLE_PATH + '/default.xml'], function(xhr)
 			{
-				// Adds bundle text to resources
+				// Adds bundle text to resources	将捆绑文本添加到资源中
 				mxResources.parse(xhr[0].getText());
 				
-				// Configuration mode
+				// Configuration mode	配置模式
 				if (isLocalStorage && localStorage != null && window.location.hash != null &&
 					window.location.hash.substring(0, 9) == '#_CONFIG_')
 				{
@@ -960,7 +960,7 @@ App.main = function(callback, createUi)
 					}
 				}
 				
-				// Prepares themes with mapping from old default-style to old XML file
+				// Prepares themes with mapping from old default-style to old XML file	准备主题，从旧的默认样式映射到旧的xml文件
 				if (xhr.length > 1)
 				{
 					Graph.prototype.defaultThemes['default-style2'] = xhr[1].getDocumentElement();
@@ -972,7 +972,7 @@ App.main = function(callback, createUi)
 				{
 					try
 					{
-						// Checks theme support
+						// Checks theme support		检查主题支持
 						if (Editor.currentTheme != '' && Editor.currentTheme != 'kennedy' &&
 							Editor.currentTheme != 'dark' && mxUtils.indexOf(
 								Editor.themes, Editor.currentTheme) < 0)
@@ -983,11 +983,27 @@ App.main = function(callback, createUi)
 						var ui = (createUi != null) ? createUi() : new App(new Editor(
 								urlParams['chrome'] == '0' || uiTheme == 'min',
 								null, null, null, urlParams['chrome'] != '0'));
-						
-						if (window.mxscript != null)
+						// 修改xml测试
+						var snapshot = ui.getDiagramSnapshot();
+						var config = '<mxGraphModel dx="1242" dy="541" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0"><root><mxCell id="0" sno="114e129e0ae32445f90bfb6f01dc775a" /><mxCell id="1" parent="0" sno="230d19dc0976254df188bfa525dda797" /><mxCell id="x8mIi8w2H7T_C72VWrIV-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="Jt1LrZ74zuXWxVqntyb9-2" target="x8mIi8w2H7T_C72VWrIV-40" edge="1" sno="x8mIi8w2H7T_C72VWrIV-41"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="Jt1LrZ74zuXWxVqntyb9-2" value="开始4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="68872c94ffe65345c83855f54d385501"><mxGeometry x="180" y="840" width="120" height="120" as="geometry" /></mxCell><mxCell id="Jt1LrZ74zuXWxVqntyb9-3" value="结束18" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="b0a251e94fe0ba4ba308d3953efa553c"><mxGeometry x="3828" y="940" width="120" height="120" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="Jt1LrZ74zuXWxVqntyb9-5" target="x8mIi8w2H7T_C72VWrIV-52" edge="1" sno="x8mIi8w2H7T_C72VWrIV-76"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="Jt1LrZ74zuXWxVqntyb9-5" value="Query1" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="6b028ec74da0ef4b97f80d0aec8964e3"><mxGeometry x="1270" y="554" width="130" height="130" as="geometry" /></mxCell><mxCell id="Jt1LrZ74zuXWxVqntyb9-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-1" target="Jt1LrZ74zuXWxVqntyb9-12" edge="1" sno="688a56eb3e8c9a48cb2b4f03b8b307c5"><mxGeometry relative="1" as="geometry"><mxPoint x="3295.000000000001" y="210" as="targetPoint" /></mxGeometry></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Jt1LrZ74zuXWxVqntyb9-10" target="x8mIi8w2H7T_C72VWrIV-1" edge="1" sno="x8mIi8w2H7T_C72VWrIV-2"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="Jt1LrZ74zuXWxVqntyb9-10" value="List1" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="43bf852d5556f84bfc88c3bc68254ef1"><mxGeometry x="1440" y="30" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="Jt1LrZ74zuXWxVqntyb9-12" target="x8mIi8w2H7T_C72VWrIV-77" edge="1" sno="x8mIi8w2H7T_C72VWrIV-78"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="Jt1LrZ74zuXWxVqntyb9-12" value="Update" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="ec25242edafa984e9e78841c2de068b3"><mxGeometry x="2920" y="579" width="130" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-1" value="List2" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-1"><mxGeometry x="2595" y="40" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="x8mIi8w2H7T_C72VWrIV-3" target="x8mIi8w2H7T_C72VWrIV-58" edge="1" sno="x8mIi8w2H7T_C72VWrIV-59"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-3" value="Query2" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-3"><mxGeometry x="2260" y="554" width="130" height="130" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-15" target="Jt1LrZ74zuXWxVqntyb9-3" edge="1" sno="x8mIi8w2H7T_C72VWrIV-10"><mxGeometry relative="1" as="geometry"><mxPoint x="3548" y="945" as="targetPoint" /></mxGeometry></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="x8mIi8w2H7T_C72VWrIV-12" target="x8mIi8w2H7T_C72VWrIV-15" edge="1" sno="x8mIi8w2H7T_C72VWrIV-11"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-12" value="List1" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-12"><mxGeometry x="3220" y="960" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-15" value="List2" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-15"><mxGeometry x="3538" y="950" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-31" target="x8mIi8w2H7T_C72VWrIV-33" edge="1" sno="x8mIi8w2H7T_C72VWrIV-29"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="920" y="900" /><mxPoint x="920" y="1275" /></Array></mxGeometry></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-31" target="x8mIi8w2H7T_C72VWrIV-35" edge="1" sno="x8mIi8w2H7T_C72VWrIV-66"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-31" value="Update" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-31"><mxGeometry x="760" y="860" width="80" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="x8mIi8w2H7T_C72VWrIV-33" target="x8mIi8w2H7T_C72VWrIV-37" edge="1" sno="x8mIi8w2H7T_C72VWrIV-32"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-33" value="Query1" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-33"><mxGeometry x="1598" y="1210" width="130" height="130" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-35" target="Jt1LrZ74zuXWxVqntyb9-5" edge="1" sno="x8mIi8w2H7T_C72VWrIV-45"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-35" target="Jt1LrZ74zuXWxVqntyb9-10" edge="1" sno="x8mIi8w2H7T_C72VWrIV-70"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="920" y="70" /></Array></mxGeometry></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-35" value="List1" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-35"><mxGeometry x="860" y="579" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-37" target="x8mIi8w2H7T_C72VWrIV-12" edge="1" sno="x8mIi8w2H7T_C72VWrIV-73"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-37" value="Query2" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-37"><mxGeometry x="2440" y="1210" width="130" height="130" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-40" target="x8mIi8w2H7T_C72VWrIV-31" edge="1" sno="x8mIi8w2H7T_C72VWrIV-42"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-40" value="Update" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-40"><mxGeometry x="480" y="860" width="80" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-46" target="x8mIi8w2H7T_C72VWrIV-3" edge="1" sno="x8mIi8w2H7T_C72VWrIV-72"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-46" value="Query1" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-46"><mxGeometry x="1980" y="840" width="130" height="130" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="x8mIi8w2H7T_C72VWrIV-47" target="x8mIi8w2H7T_C72VWrIV-54" edge="1" sno="x8mIi8w2H7T_C72VWrIV-55"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-47" value="List1" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-47"><mxGeometry x="1800" y="240" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-52" target="x8mIi8w2H7T_C72VWrIV-47" edge="1" sno="x8mIi8w2H7T_C72VWrIV-50"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1610" y="280" /></Array></mxGeometry></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-52" target="x8mIi8w2H7T_C72VWrIV-46" edge="1" sno="x8mIi8w2H7T_C72VWrIV-51"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1610" y="905" /></Array></mxGeometry></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-52" value="List1" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-52"><mxGeometry x="1550" y="579" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-71" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-54" target="x8mIi8w2H7T_C72VWrIV-3" edge="1" sno="x8mIi8w2H7T_C72VWrIV-71"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-54" value="List1" style="rhombus;whiteSpace=wrap;html=1;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-54"><mxGeometry x="2068" y="240" width="120" height="80" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="x8mIi8w2H7T_C72VWrIV-58" target="Jt1LrZ74zuXWxVqntyb9-12" edge="1" sno="x8mIi8w2H7T_C72VWrIV-60"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-58" value="Query2" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-58"><mxGeometry x="2590" y="554" width="130" height="130" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="x8mIi8w2H7T_C72VWrIV-77" target="x8mIi8w2H7T_C72VWrIV-12" edge="1" sno="x8mIi8w2H7T_C72VWrIV-79"><mxGeometry relative="1" as="geometry" /></mxCell><mxCell id="x8mIi8w2H7T_C72VWrIV-77" value="Query2" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFE5E3;fontSize=36;labelBackgroundColor=#000000;textShadow=0;" parent="1" vertex="1" sno="x8mIi8w2H7T_C72VWrIV-77"><mxGeometry x="3215" y="554" width="130" height="130" as="geometry" /></mxCell></root></mxGraphModel>';
+						var data = Graph.zapGremlins(mxUtils.trim(config));
+						try
 						{
-							// Loads dropbox for all browsers but IE8 and below (no CORS) if not disabled or if enabled and in embed mode
-							// KNOWN: Picker does not work in IE11 (https://dropbox.zendesk.com/requests/1650781)
+							var node = mxUtils.parseXml(data).documentElement;
+							ui.updateDiagramData(snapshot, node);
+						}
+						catch (e)
+						{
+							error = e;
+						}
+						console.log(ui);
+						if (window.mxscript != null){
+						
+							// 加载所有浏览器的Dropbox，但IE8及以下版本(无CORS)，如果未禁用或启用，则处于嵌入模式
+							// Loads dropbox for all browsers but IE8 and below (no CORS) if not disabled or if enabled and in embed mode	
+							// 已知：选择器在IE11(https://dropbox.zendesk.com/reguests/1650781)中不工作
+							// KNOWN: Picker does not work in IE11 (https://dropbox.zendesk.com/requests/1650781)	
+
 							if (typeof window.DropboxClient === 'function' &&
 								(window.Dropbox == null && window.DrawDropboxClientCallback != null &&
 								(((urlParams['embed'] != '1' && urlParams['db'] != '0') ||
@@ -996,6 +1012,7 @@ App.main = function(callback, createUi)
 							{
 								mxscript(App.DROPBOX_URL, function()
 								{
+									// 必须在DropboxSDK之后加载它，因为它们使用相同的命名空间
 									// Must load this after the dropbox SDK since they use the same namespace
 									mxscript(App.DROPINS_URL, function()
 									{
@@ -1003,12 +1020,12 @@ App.main = function(callback, createUi)
 									}, 'dropboxjs', App.DROPBOX_APPKEY);
 								});
 							}
-							// Disables client
+							// Disables client	禁用客户端
 							else if (typeof window.Dropbox === 'undefined')
 							{
 								window.DropboxClient = null;
 							}
-							
+							// 为所有浏览器加载OneDrive，但IE6/IOS(如果未禁用或启用)处于嵌入模式
 							// Loads OneDrive for all browsers but IE6/IOS if not disabled or if enabled and in embed mode
 							if (typeof window.OneDriveClient === 'function' &&
 								(typeof OneDrive === 'undefined' && window.DrawOneDriveClientCallback != null &&
@@ -1016,15 +1033,16 @@ App.main = function(callback, createUi)
 								urlParams['od'] == '1')) && (navigator.userAgent == null ||
 								navigator.userAgent.indexOf('MSIE') < 0 || document.documentMode >= 10))))
 							{
+								//可以用稍后完成的配置来设置Editor.oneDriveInlinePicker，所以始终加载它
 								//Editor.oneDriveInlinePicker can be set with configuration which is done later, so load it all time
 								mxscript(App.ONEDRIVE_URL, window.DrawOneDriveClientCallback);
 							}
-							// Disables client
+							// Disables client	禁用客户端
 							else if (typeof window.OneDrive === 'undefined')
 							{
 								window.OneDriveClient = null;
 							}
-							
+							// 为所有浏览器加载Trello，但如果未禁用或启用并处于嵌入模式，则为<IE10
 							// Loads Trello for all browsers but < IE10 if not disabled or if enabled and in embed mode
 							if (typeof window.TrelloClient === 'function' && !mxClient.IS_IE11 &&
 								typeof window.Trello === 'undefined' && window.DrawTrelloClientCallback != null &&
@@ -1033,6 +1051,7 @@ App.main = function(callback, createUi)
 							{
 								mxscript(App.TRELLO_JQUERY_URL, function()
 								{
+									// 必须在DropboxSDK之后加载它，因为它们使用相同的命名空间
 									// Must load this after the dropbox SDK since they use the same namespace
 									mxscript(App.TRELLO_URL, function()
 									{
@@ -1083,15 +1102,16 @@ App.main = function(callback, createUi)
 						}
 					}
 				};
-				
-				if (urlParams['dev'] == '1' || EditorUi.isElectronApp) //TODO check if we can remove these scripts loading from index.html
+
+				//TODO check if we can remove these scripts loading from index.html		检查是否可以删除从index.html加载的这些脚本
+				if (urlParams['dev'] == '1' || EditorUi.isElectronApp) 
 				{
 					realMain();
 				}
 				else
 				{
-					// Note: Lazy loading stencils.min.js in viewer.diagrams.net
-					// has no impact as stencils.min.js is pre-cached in PWA
+					// Note: Lazy loading stencils.min.js in viewer.diagrams.net	注意：在viewer.diagrams.net中延迟加载stencils.min.js
+					// has no impact as stencils.min.js is pre-cached in PWA		没有影响，因为stencils.min.js预缓存在PWA中
 					mxStencilRegistry.allowEval = false;
 					App.loadScripts(['js/shapes-14-6-5.min.js', 'js/stencils.min.js',
 						'js/extensions.min.js'], realMain, function(e)
@@ -1123,7 +1143,7 @@ App.main = function(callback, createUi)
 
 		function doMain()
 		{
-			// Optional override for autosaveDelay and defaultEdgeLength
+			// Optional override for autosaveDelay and defaultEdgeLength	用于autosaveDelay和defaultEdgeLength的常规重写
 			try
 			{
 				if (mxSettings.settings != null)
@@ -1174,7 +1194,7 @@ App.main = function(callback, createUi)
 
 			try
 			{
-				// Prefetches default fonts with URLs
+				// Prefetches default fonts with URLs	预取带有URL的默认字体
 				if (Menus.prototype.defaultFonts != null)
 				{
 					for (var i = 0; i < Menus.prototype.defaultFonts.length; i++)
@@ -1190,8 +1210,8 @@ App.main = function(callback, createUi)
 					}
 				}
 				
-				// Adds required resources (disables loading of fallback properties, this can only
-				// be used if we know that all keys are defined in the language specific file)
+				// Adds required resources (disables loading of fallback properties, this can only	添加所需的资源（禁用加载回退属性，只有当
+				// be used if we know that all keys are defined in the language specific file)		我们知道所有键都在特定于语言的文件中定义时，才能使用此选项）
 				mxResources.loadDefaultBundle = false;
 				doLoad(mxResources.getDefaultBundle(RESOURCE_BASE, mxLanguage) ||
 					mxResources.getSpecialBundle(RESOURCE_BASE, mxLanguage));
@@ -1205,7 +1225,7 @@ App.main = function(callback, createUi)
 			}
 		};
 
-		// Sends load event if configuration is requested and waits for configure message
+		// Sends load event if configuration is requested and waits for configure message	如果请求配置并等待配置消息，则发送LOAD事件。
 		if (urlParams['configure'] == '1')
 		{
 			var op = window.opener || window.parent;

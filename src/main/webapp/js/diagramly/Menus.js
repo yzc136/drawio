@@ -3834,6 +3834,8 @@
 				this.addMenuItems(menu, ['-', 'createShape', 'editDiagram'], parent);
 			}
         })));
+		//todo	菜单事件
+		this.put("addTest",new Menu(function(menu,parent){}))
         
 		this.put('openRecent', new Menu(function(menu, parent)
 		{
@@ -5165,7 +5167,8 @@
 				{
 					this.addMenuItems(menu, ['new'], parent);
 				}
-				
+				//todo	菜单
+				this.addSubmenu('addTest', menu, parent);
 				this.addSubmenu('openFrom', menu, parent);
 
 				if (isLocalStorage)

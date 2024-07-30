@@ -6,6 +6,7 @@
  */
 EditorUi = function(editor, container, lightbox)
 {
+	// this=App
 	mxEventSource.call(this);
 	
 	this.destroyFunctions = [];

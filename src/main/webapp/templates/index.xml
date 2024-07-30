@@ -45,6 +45,7 @@
   <add>Uhttps://jgraph.github.io/drawio-libs/libs/fortinet/Fortinet_VM_Components.xml</add>
 </clibs>
 <template url="basic/classes.xml" title="classDiagram" libs="general;uml" tags="classDiagram;Classes"/>
+<template url="basic/workflow.xml" title="workflow" libs="general;uml" tags="workflow;Workflow"/>
 <template url="basic/flowchart.xml" title="flowchart" libs="general;flowchart" tags="flowchart;Flowchart"/>
 <template url="basic/orgchart.xml" title="orgChart" libs="general;basic;arrows" tags="orgChart;Orgchart"/>
 <template url="basic/swimlanes.xml" title="swimlaneDiagram" libs="general;flowchart;bpmn" tags="swimlaneDiagram;Swimlanes"/>

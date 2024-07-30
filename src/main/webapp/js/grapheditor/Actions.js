@@ -103,6 +103,8 @@ Actions.prototype.init = function()
 	this.addAction('editDiagram...', function()
 	{
 		var dlg = new EditDiagramDialog(ui);
+		console.log(ui);
+		console.log(dlg.container);
 		ui.showDialog(dlg.container, 620, 420, true, false);
 		dlg.init();
 	}).isEnabled = isGraphEnabled;
@@ -465,7 +467,12 @@ Actions.prototype.init = function()
 	{
 		// Cancels interactive operations
 		graph.escape();
-		var select = graph.deleteCells(graph.getDeletableCells(graph.getSelectionCells()), includeEdges);
+		var cells=graph.getSelectionCells()
+		console.log(cells);
+		cells.forEach(child => {
+			console.log(child);
+		});
+		var select = graph.deleteCells(graph.getDeletableCells(cells), includeEdges);
 		
 		if (select != null)
 		{
@@ -734,6 +741,7 @@ Actions.prototype.init = function()
 		}
 	});
 	// Adds action
+
 	this.addAction('edit', function()
 	{
 		if (graph.isEnabled())
@@ -743,7 +751,9 @@ Actions.prototype.init = function()
 	}, null, null, 'F2/Enter');
 	this.addAction('editData...', function()
 	{
+		//todo 获取当前节点信息
 		var cell = graph.getSelectionCell() || graph.getModel().getRoot();
+		console.log(cell);
 		ui.showDataDialog(cell);
 	}, null, null, Editor.ctrlKey + '+M');
 	this.addAction('editTooltip...', function()
@@ -1540,6 +1550,35 @@ Actions.prototype.init = function()
 		ui.fireEvent(new mxEventObject('styleChanged', 'keys', ['collapsible'],
 				'values', [value], 'cells', graph.getSelectionCells()));
 	});
+		//todo	编辑步点
+	this.addAction('editStep',function(element)
+	{
+		//todo 获取当前节点信息
+		var cell = graph.getSelectionCell() || graph.getModel().getRoot();
+		console.log(cell.id);
+		// {
+			var iframe=document.createElement("iframe")
+			  // 设置iframe的src属性  
+			  iframe.src = "https://yiyan.baidu.com/chat/4512897344";
+			  iframe.style.width='100%'
+			  iframe.style.height='500px'
+			  
+		// 	ui.showDataDialog(iframe);
+		// }
+		// 自定义弹窗
+		var popup = new CustomDialog(
+			ui,
+			iframe,
+			mxUtils.bind(this, function () {
+			  console.log('----ok----')
+			}),
+			mxUtils.bind(this, function () {
+			  console.log('----cancel----')
+			})
+		)
+		
+		ui.showDialog(popup.container, 800, 600)
+	}, null, null, Editor.ctrlKey + '+F');
 	this.addAction('editStyle...', mxUtils.bind(this, function()
 	{
 		var cells = graph.getEditableCells(graph.getSelectionCells());

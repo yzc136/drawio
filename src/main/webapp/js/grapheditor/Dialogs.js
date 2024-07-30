@@ -778,6 +778,7 @@ var EditDiagramDialog = function(editorUi)
 	textarea.style.height = '360px';
 	textarea.style.marginBottom = '16px';
 
+	//todo 结果xml
 	var snapshot = editorUi.getDiagramSnapshot();
 	textarea.value = mxUtils.getPrettyXml(snapshot.node);
 	div.appendChild(textarea);
@@ -868,6 +869,7 @@ var EditDiagramDialog = function(editorUi)
 	
 	div.appendChild(select);
 
+	// todo 修改xml
 	var okBtn = mxUtils.button(mxResources.get('ok'), function()
 	{
 		// Removes all illegal control characters before parsing

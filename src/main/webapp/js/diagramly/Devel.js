@@ -6,133 +6,131 @@
  * is used for development mode where the JS is in separate
  * files and the mxClient.js loads other files.
  */
-if (!mxIsElectron)
-{
-	(function()
-	{
-		var hashes = 'default-src \'self\'; ' +
-			'script-src %script-src% \'self\' https://viewer.diagrams.net https://apis.google.com https://*.pusher.com ' +
-			// Below are the SHAs of the two script blocks in index.html.
-			// These must be updated here and in the CDN after changes.
-			// Note: Desktop app uses only the newest hashes (replace it in electron.js [The one in index.html needs to be changed only if the second script block changes])
-			//----------------------------------------------------------//
-			//------------- Bootstrap script in index.html -------------//
-			//----------------------------------------------------------//
-			// Version 24.4.4
-			'\'sha256-f6cHSTUnCvbQqwa6rKcbWIpgN9dLl0ROfpEKTQUQPr8=\' ' +
-			// Version 24.3.2
-			'\'sha256-qgjuMiWd1HsOihB9Ppd7j72lY0gT8BpBkiRIJFO3sRQ=\' ' +
-			// Version 24.2.6
-			'\'sha256-CuxCZzdV/xHExthsNvH0rD+sU8zQAaYT5XLu6LHfH78=\' ' +
-			// Version 21.7.0
-			'\'sha256-dLMFD7ijAw6AVaqecS7kbPcFFzkxQ+yeZSsKpOdLxps=\' ' +
-			// Version 21.6.7
-			'\'sha256-PDJOTCOfwIg8Ri7U2PH1pIpx+haCyKsJEbFxlW6hdSI=\' ' +
-			// Version 21.5.0
-			'\'sha256-6zAB96lsBZREqf0sT44BhH1T69sm7HrN34rpMOcWbNo=\' ' +
-			// Version 21.4.1
-			'\'sha256-3SkDBaLE+ouvAOfTmG2TGwmQ2EE9AT0F2YcHvZmEMeo=\' ' +
-			// Version 20.8.14
-			'\'sha256-vrEVJkYyBW9H4tt1lYZtK5fDowIeRwUgYZfFTT36YpE=\' ' +
-			// Version 20.8.12
-			'\'sha256-6g514VrT/cZFZltSaKxIVNFF46+MFaTSDTPB8WfYK+c=\' ' +
-			//---------------------------------------------------------//
-			//------------- App.main script in index.html -------------//
-			//---------------------------------------------------------//
-			// Version 13.8.2
-			'\'sha256-vS/MxlVD7nbY7AnV+0t1Ap338uF7vrcs7y23KjERhKc=\' ' +
-			//---------------------------------------------------------//
-			'; ';
+if (!mxIsElectron) {
+    (function() {
+        var hashes = 'default-src \'self\'; ' +
+            'script-src %script-src% \'self\' https://viewer.diagrams.net https://apis.google.com https://*.pusher.com ' +
+            // Below are the SHAs of the two script blocks in index.html.
+            // These must be updated here and in the CDN after changes.
+            // Note: Desktop app uses only the newest hashes (replace it in electron.js [The one in index.html needs to be changed only if the second script block changes])
+            //----------------------------------------------------------//
+            //------------- Bootstrap script in index.html -------------//
+            //----------------------------------------------------------//
+            // Version 24.4.4
+            '\'sha256-f6cHSTUnCvbQqwa6rKcbWIpgN9dLl0ROfpEKTQUQPr8=\' ' +
+            // Version 24.3.2
+            '\'sha256-qgjuMiWd1HsOihB9Ppd7j72lY0gT8BpBkiRIJFO3sRQ=\' ' +
+            // Version 24.2.6
+            '\'sha256-CuxCZzdV/xHExthsNvH0rD+sU8zQAaYT5XLu6LHfH78=\' ' +
+            // Version 21.7.0
+            '\'sha256-dLMFD7ijAw6AVaqecS7kbPcFFzkxQ+yeZSsKpOdLxps=\' ' +
+            // Version 21.6.7
+            '\'sha256-PDJOTCOfwIg8Ri7U2PH1pIpx+haCyKsJEbFxlW6hdSI=\' ' +
+            // Version 21.5.0
+            '\'sha256-6zAB96lsBZREqf0sT44BhH1T69sm7HrN34rpMOcWbNo=\' ' +
+            // Version 21.4.1
+            '\'sha256-3SkDBaLE+ouvAOfTmG2TGwmQ2EE9AT0F2YcHvZmEMeo=\' ' +
+            // Version 20.8.14
+            '\'sha256-vrEVJkYyBW9H4tt1lYZtK5fDowIeRwUgYZfFTT36YpE=\' ' +
+            // Version 20.8.12
+            '\'sha256-6g514VrT/cZFZltSaKxIVNFF46+MFaTSDTPB8WfYK+c=\' ' +
+            //---------------------------------------------------------//
+            //------------- App.main script in index.html -------------//
+            //---------------------------------------------------------//
+            // Version 13.8.2
+            '\'sha256-vS/MxlVD7nbY7AnV+0t1Ap338uF7vrcs7y23KjERhKc=\' ' +
+            //---------------------------------------------------------//
+            '; ';
 
-		var styleHashes = '\'sha256-pVoUz0B9cDvBP/6KP+5uOMqPh1c14hF0KFqSELqeyNQ=\' ' + // index.html
-			'\'sha256-D9Gy46rimBnLRtBqv9U464kXQ5oT5JvkurboVMjtN0Q=\' ' + // MinimalCss/Light
-			'\'sha256-C9BzsAi3ukZpBZzbdTpUNpxHfPR/+KJbeueKj1U6QGY=\' ' + // MinimalCss/Dark
-			'\'sha256-7kY8ozVqKLIIBwZ24dhdmZkM26PsOlZmEi72RhmZKoM=\' ' + // mxTooltipHandler.js
-			'\'sha256-kuk5TvxZ/Kwuobo4g6uasb1xRQwr1+nfa1A3YGePO7U=\' ' + // MathJax
-			'\'sha256-ByOXYIXIkfNC3flUR/HoxR4Ak0pjOEF1q8XmtuIa6po=\' ' + // purify.min.js
-			'\'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\' ' + // spin.min.js
-			'\'sha256-nzHi23DROym7G011m6y0DyDd9mvQL2hSJ0Gy3g2T/5Q=\' ' + // dropins.js
-			'\'sha256-xjAW8oXqJlP0CWqxT9s80kgOtOjvENMmfnnfulL6p1A=\' ' + // gapi
-			'\'unsafe-hashes\'; '; // Required for hashes for style attribute
-		
-		var directives = 'connect-src %connect-src% \'self\' https://*.draw.io https://*.diagrams.net ' +
-			'https://*.googleapis.com wss://app.diagrams.net wss://*.pusher.com https://*.pusher.com ' +
-			'https://api.github.com https://raw.githubusercontent.com https://gitlab.com ' +
-			'https://graph.microsoft.com https://my.microsoftpersonalcontent.com https://*.sharepoint.com  https://*.1drv.com https://api.onedrive.com ' +
-			'https://dl.dropboxusercontent.com https://api.openai.com ' +
-			'https://*.google.com https://fonts.gstatic.com https://fonts.googleapis.com; ' +
-			// font-src about: is required for MathJax HTML-CSS output with STIX
-			'img-src * data: blob:; media-src * data:; font-src * data: about:; ' +
-			// www.draw.io required for browser data migration to app.diagrams.net and
-			// viewer.diagrams.net required for iframe embed preview
-			'frame-src %frame-src% \'self\' https://viewer.diagrams.net https://www.draw.io https://*.google.com; ' +
-			'style-src %style-src% \'self\' https://fonts.googleapis.com ' +
-			// Replaces unsafe-inline style-src with hashes with safe-style-src URL parameter
-			((urlParams['safe-style-src'] == '1') ? styleHashes : '\'unsafe-inline\'; ') +
-			'base-uri \'none\';' +
-			'child-src \'self\';' +
-			'object-src \'none\';';
-			
-		var csp = hashes + directives;
-		var devCsp = csp.
-			// Adds script tags and loads shapes with eval
-			replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com \'unsafe-eval\'').
-			// Adds Trello and Dropbox backend storage
-			replace(/%connect-src%/g, 'https://*.dropboxapi.com https://trello.com https://api.trello.com https://my.microsoftpersonalcontent.com').
-			// Loads common.css from mxgraph
-			replace(/%style-src%/g, '').
-			replace(/%frame-src%/g, '').
-			replace(/  /g, ' ');
+        var styleHashes = '\'sha256-pVoUz0B9cDvBP/6KP+5uOMqPh1c14hF0KFqSELqeyNQ=\' ' + // index.html
+            '\'sha256-D9Gy46rimBnLRtBqv9U464kXQ5oT5JvkurboVMjtN0Q=\' ' + // MinimalCss/Light
+            '\'sha256-C9BzsAi3ukZpBZzbdTpUNpxHfPR/+KJbeueKj1U6QGY=\' ' + // MinimalCss/Dark
+            '\'sha256-7kY8ozVqKLIIBwZ24dhdmZkM26PsOlZmEi72RhmZKoM=\' ' + // mxTooltipHandler.js
+            '\'sha256-kuk5TvxZ/Kwuobo4g6uasb1xRQwr1+nfa1A3YGePO7U=\' ' + // MathJax
+            '\'sha256-ByOXYIXIkfNC3flUR/HoxR4Ak0pjOEF1q8XmtuIa6po=\' ' + // purify.min.js
+            '\'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\' ' + // spin.min.js
+            '\'sha256-nzHi23DROym7G011m6y0DyDd9mvQL2hSJ0Gy3g2T/5Q=\' ' + // dropins.js
+            '\'sha256-xjAW8oXqJlP0CWqxT9s80kgOtOjvENMmfnnfulL6p1A=\' ' + // gapi
+            '\'unsafe-hashes\'; '; // Required for hashes for style attribute
 
-		mxmeta(null, devCsp, 'Content-Security-Policy');
+        var directives = 'connect-src %connect-src% \'self\' https://*.draw.io https://*.diagrams.net ' +
+            'https://*.googleapis.com wss://app.diagrams.net wss://*.pusher.com https://*.pusher.com ' +
+            'https://api.github.com https://raw.githubusercontent.com https://gitlab.com ' +
+            'https://graph.microsoft.com https://my.microsoftpersonalcontent.com https://*.sharepoint.com  https://*.1drv.com https://api.onedrive.com ' +
+            'https://dl.dropboxusercontent.com https://api.openai.com ' +
+            'https://*.google.com https://fonts.gstatic.com https://fonts.googleapis.com; ' +
+            // font-src about: is required for MathJax HTML-CSS output with STIX
+            'img-src * data: blob:; media-src * data:; font-src * data: about:; ' +
+            // www.draw.io required for browser data migration to app.diagrams.net and
+            // viewer.diagrams.net required for iframe embed preview
+            'frame-src %frame-src% \'self\' https://viewer.diagrams.net https://www.draw.io https://*.google.com; ' +
+            'style-src %style-src% \'self\' https://fonts.googleapis.com ' +
+            // Replaces unsafe-inline style-src with hashes with safe-style-src URL parameter
+            ((urlParams['safe-style-src'] == '1') ? styleHashes : '\'unsafe-inline\'; ') +
+            'base-uri \'none\';' +
+            'child-src \'self\';' +
+            'object-src \'none\';';
 
-		if (urlParams['print-csp'] == '1')
-		{
-			console.log('Content-Security-Policy');
-			var app_diagrams_net = csp.replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com').
-				replace(/%connect-src%/g, 'https://*.dropboxapi.com https://api.trello.com').
-				replace(/%frame-src%/g, '').
-					replace(/%style-src%/g, '').
-					replace(/  /g, ' ') + ' frame-ancestors \'self\' https://teams.microsoft.com https://*.cloud.microsoft;';
-			console.log('app.diagrams.net:', app_diagrams_net);
+        var csp = hashes + directives;
+        var devCsp 
+        // =csp.
+        //     // Adds script tags and loads shapes with eval
+        // replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com \'unsafe-eval\'').
+        //     // Adds Trello and Dropbox backend storage
+        // replace(/%connect-src%/g, 'https://*.dropboxapi.com https://trello.com https://api.trello.com https://my.microsoftpersonalcontent.com').
+        //     // Loads common.css from mxgraph
+        // replace(/%style-src%/g, '').
+        // replace(/%frame-src%/g, '').
+        // replace(/  /g, ' ');
 
-			var viewer_diagrams_net = hashes.replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com https://app.diagrams.net') +
-				'connect-src *; ' +
-				'img-src * data: blob:; ' +
-				'media-src * data:; ' +
-				'font-src * data: about:; ' +
-				'style-src \'self\' https://fonts.googleapis.com \'unsafe-inline\'; ' +
-				'base-uri \'none\';' +
-				'object-src \'none\';' +
-				'worker-src https://viewer.diagrams.net/service-worker.js;'
-			console.log('viewer.diagrams.net:', viewer_diagrams_net);
+        // mxmeta(null, devCsp, 'Content-Security-Policy');
 
-			var teams_diagrams_net = app_diagrams_net.replace(/ 'sha256-[^']+'/g, '') + 'worker-src https://app.diagrams.net/service-worker.js;';
-			console.log('teams.diagrams.net:', teams_diagrams_net);
+        if (urlParams['print-csp'] == '1') {
+            console.log('Content-Security-Policy');
+            var app_diagrams_net = csp.replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com').
+            replace(/%connect-src%/g, 'https://*.dropboxapi.com https://api.trello.com').
+            replace(/%frame-src%/g, '').
+            replace(/%style-src%/g, '').
+            replace(/  /g, ' ') + ' frame-ancestors \'self\' https://teams.microsoft.com https://*.cloud.microsoft;';
+            console.log('app.diagrams.net:', app_diagrams_net);
 
-			var ac_draw_io = csp.replace(/%script-src%/g, 'https://aui-cdn.atlassian.com https://connect-cdn.atl-paas.net').
-					replace(/%frame-src%/g, 'https://www.lucidchart.com https://app.lucidchart.com https://lucid.app blob:').
-					replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
-					replace(/%connect-src%/g, '').
-					replace(/  /g, ' ') +
-					'worker-src https://ac.draw.io/service-worker.js;';
-			console.log('ac.draw.io:', ac_draw_io);
+            var viewer_diagrams_net = hashes.replace(/%script-src%/g, 'https://www.dropbox.com https://api.trello.com https://app.diagrams.net') +
+                'connect-src *; ' +
+                'img-src * data: blob:; ' +
+                'media-src * data:; ' +
+                'font-src * data: about:; ' +
+                'style-src \'self\' https://fonts.googleapis.com \'unsafe-inline\'; ' +
+                'base-uri \'none\';' +
+                'object-src \'none\';' +
+                'worker-src https://viewer.diagrams.net/service-worker.js;'
+            console.log('viewer.diagrams.net:', viewer_diagrams_net);
 
-			var aj_draw_io = csp.replace(/%script-src%/g, 'https://aui-cdn.atlassian.com https://connect-cdn.atl-paas.net').
-					replace(/%frame-src%/g, 'blob:').
-					replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
-					replace(/%connect-src%/g, 'https://api.atlassian.com https://api.media.atlassian.com').
-					replace(/  /g, ' ') +
-					'worker-src https://aj.draw.io/service-worker.js;';
-			console.log('aj.draw.io:', aj_draw_io);
+            var teams_diagrams_net = app_diagrams_net.replace(/ 'sha256-[^']+'/g, '') + 'worker-src https://app.diagrams.net/service-worker.js;';
+            console.log('teams.diagrams.net:', teams_diagrams_net);
 
-			console.log('import.diagrams.net:', 'default-src \'self\'; worker-src blob:; img-src \'self\' blob: data: https://www.lucidchart.com ' +
-					'https://app.lucidchart.com https://lucid.app; style-src \'self\' \'unsafe-inline\'; frame-src https://www.lucidchart.com https://app.lucidchart.com https://lucid.app;');
-			console.log('Development:', devCsp);
+            var ac_draw_io = csp.replace(/%script-src%/g, 'https://aui-cdn.atlassian.com https://connect-cdn.atl-paas.net').
+            replace(/%frame-src%/g, 'https://www.lucidchart.com https://app.lucidchart.com https://lucid.app blob:').
+            replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
+            replace(/%connect-src%/g, '').
+            replace(/  /g, ' ') +
+                'worker-src https://ac.draw.io/service-worker.js;';
+            console.log('ac.draw.io:', ac_draw_io);
 
-			console.log('Remember to add index.html new hashes to Desktop app (electron.js). In desktop, only newest hashes are needed.');
-		}
-	})();
+            var aj_draw_io = csp.replace(/%script-src%/g, 'https://aui-cdn.atlassian.com https://connect-cdn.atl-paas.net').
+            replace(/%frame-src%/g, 'blob:').
+            replace(/%style-src%/g, 'https://aui-cdn.atlassian.com https://*.atlassian.net https://connect-cdn.atl-paas.net').
+            replace(/%connect-src%/g, 'https://api.atlassian.com https://api.media.atlassian.com').
+            replace(/  /g, ' ') +
+                'worker-src https://aj.draw.io/service-worker.js;';
+            console.log('aj.draw.io:', aj_draw_io);
+
+            console.log('import.diagrams.net:', 'default-src \'self\'; worker-src blob:; img-src \'self\' blob: data: https://www.lucidchart.com ' +
+                'https://app.lucidchart.com https://lucid.app; style-src \'self\' \'unsafe-inline\'; frame-src https://www.lucidchart.com https://app.lucidchart.com https://lucid.app;');
+            console.log('Development:', devCsp);
+
+            console.log('Remember to add index.html new hashes to Desktop app (electron.js). In desktop, only newest hashes are needed.');
+        }
+    })();
 }
 
 mxscript(drawDevUrl + 'js/cryptojs/aes.min.js');
@@ -145,16 +143,16 @@ mxscript(drawDevUrl + 'js/rough/rough.min.js');
 mxscript(drawDevUrl + 'js/freehand/perfect-freehand.js');
 
 // Uses grapheditor from devhost
-mxscript(geBasePath +'/Editor.js');
-mxscript(geBasePath +'/EditorUi.js');
-mxscript(geBasePath +'/Sidebar.js');
-mxscript(geBasePath +'/Graph.js');
-mxscript(geBasePath +'/Format.js');
-mxscript(geBasePath +'/Shapes.js');
-mxscript(geBasePath +'/Actions.js');
-mxscript(geBasePath +'/Menus.js');
-mxscript(geBasePath +'/Toolbar.js');
-mxscript(geBasePath +'/Dialogs.js');
+mxscript(geBasePath + '/Editor.js');
+mxscript(geBasePath + '/EditorUi.js');
+mxscript(geBasePath + '/Sidebar.js');
+mxscript(geBasePath + '/Graph.js');
+mxscript(geBasePath + '/Format.js');
+mxscript(geBasePath + '/Shapes.js');
+mxscript(geBasePath + '/Actions.js');
+mxscript(geBasePath + '/Menus.js');
+mxscript(geBasePath + '/Toolbar.js');
+mxscript(geBasePath + '/Dialogs.js');
 
 // Loads main classes
 mxscript(drawDevUrl + 'js/diagramly/sidebar/Sidebar.js');
@@ -275,10 +273,9 @@ mxscript(drawDevUrl + 'js/diagramly/mxFreehand.js');
 mxscript(drawDevUrl + 'js/diagramly/P2PCollab.js');
 mxscript(drawDevUrl + 'js/diagramly/DevTools.js');
 
-if (!window.DRAWIO_PUBLIC_BUILD)
-{
-	mxscript(drawDevUrl + 'js/diagramly/Simple.js');
-	mxscript(drawDevUrl + 'js/mermaid/mermaid2drawio.js');	
+if (!window.DRAWIO_PUBLIC_BUILD) {
+    mxscript(drawDevUrl + 'js/diagramly/Simple.js');
+    mxscript(drawDevUrl + 'js/mermaid/mermaid2drawio.js');
 }
 
 // Vsdx/vssx support
@@ -292,12 +289,11 @@ mxscript(drawDevUrl + 'js/jszip/jszip.min.js');
 mxscript(drawDevUrl + 'js/diagramly/graphml/mxGraphMlCodec.js');
 
 // Org Chart Layout
-if (urlParams['orgChartDev'] == '1')
-{
-	mxscript(drawDevUrl + 'js/orgchart/bridge.min.js');
-	mxscript(drawDevUrl + 'js/orgchart/bridge.collections.min.js');
-	mxscript(drawDevUrl + 'js/orgchart/OrgChart.Layout.min.js');
-	mxscript(drawDevUrl + 'js/orgchart/mxOrgChartLayout.js');
+if (urlParams['orgChartDev'] == '1') {
+    mxscript(drawDevUrl + 'js/orgchart/bridge.min.js');
+    mxscript(drawDevUrl + 'js/orgchart/bridge.collections.min.js');
+    mxscript(drawDevUrl + 'js/orgchart/OrgChart.Layout.min.js');
+    mxscript(drawDevUrl + 'js/orgchart/mxOrgChartLayout.js');
 }
 
 // Miro Import
