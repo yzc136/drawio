@@ -886,6 +886,8 @@ var EditDiagramDialog = function(editorUi)
 			try
 			{
 				var node = mxUtils.parseXml(data).documentElement;
+				// console.log(node);
+				// console.log(editorUi);
 				editorUi.updateDiagramData(snapshot, node);
 				editorUi.hideDialog();
 			}
